@@ -1,6 +1,4 @@
-# Strategy Planner
-
-## Healthy Country AI Strategy Planner: an AI-enabled decision support system for prioritising invasive weed actions on Indigenous lands
+# Healthy Country AI Strategy Planner: an AI-enabled decision support system for prioritising invasive weed actions on Indigenous lands
 
 ## Overview
 
