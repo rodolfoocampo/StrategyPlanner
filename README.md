@@ -4,8 +4,10 @@
 
 This is an extension of the [Healthy Country AI system](https://github.com/microsoft/HealthyCountryAI).  The Healthy Country AI system is an AI-enabled system that collects, classifies, stores and visualises high-quality data on invasive weeds in Kakadu according to indigenous governance protocols. This system builds upon that work to help turn that data into actions by allowing rangers to make informed weed control prioritisation decisions.
 
+_**Healthy Country AI initially**_
 ![Healthy Country AI](./Photos/before.png)
 
+_**Healthy Country AI with Strategy Planner**_
 ![Healthy Country AI + Strategy Planner](./Photos/after.png)
 
 
