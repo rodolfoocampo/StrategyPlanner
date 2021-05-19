@@ -41,12 +41,28 @@ In this page, the user can see to the left a map of the infestation grouped by p
 
 ## How to run this code
 
-This code is open-source and can be used by anyone. 
+At the core of Strategy Planner is the strategyPlanner function. 
 
 ```python
-strategyPlanner(grid, management_cost, habitat_gain,(0,0), 6000, 10)
+strategyPlanner(label_grid, invasive_number_label, cost_grid, benefit_grid, max_cost, n_patches)
 ```
-This code is open-source and can be used by anyone. 
+
+**Parameters** 2D numpy array
+        
+        label_grid: 2D numpy array of integers
+            This is the infestation data. It needs to be a 2d array where each cell is an observation with a label attached. The array must contain a number in each position. Each different number represents a different label. In Healthy Country AI, each entry in the array represents a 5x5m photo with a numeric label representing the following labels. 
+            
+             - 'water' = 1
+             - 'water lillies' = 2
+             - 'bare ground' = 3
+             - 'tree' = 4
+             - 'other grass' = 5
+             - 'burnt othergrass' = 6
+             - 'dead paragrass' = 7
+             - 'recovering paragrass' = 8
+             - 'paragrass' = 9
+             - 'dense paragrass' = 10
+
 
 
 
