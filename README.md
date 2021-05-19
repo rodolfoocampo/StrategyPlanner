@@ -47,11 +47,11 @@ At the core of Strategy Planner is the strategyPlanner function.
 strategyPlanner(label_grid, invasive_number_label, cost_grid, benefit_grid, max_cost, n_patches)
 ```
 
-**Parameters** 2D numpy array
+**Parameters** 
         
         label_grid: 2D numpy array of integers
-            This is the infestation data. It needs to be a 2d array where each cell is an observation with a label attached. The array must contain a number in each position. Each different number represents a different label. In Healthy Country AI, each entry in the array represents a 5x5m photo with a numeric label representing the following labels. 
-            
+            This is the infestation data. It needs to be a 2d array where each cell is an observation with a label attached. The array must contain a number in each position. Each different number represents a different label. In Healthy Country AI, each entry in the array represents a 5x5m photo with a numeric label representing the following labels. Ideally, set up up so that this can capture a cardinality in infestation density. Negatives denotes parts that are not part of the map but were included for symmetry, usually in the outskirts.
+            - 'Negative' = 0
              - 'water' = 1
              - 'water lillies' = 2
              - 'bare ground' = 3
@@ -62,6 +62,20 @@ strategyPlanner(label_grid, invasive_number_label, cost_grid, benefit_grid, max_
              - 'recovering paragrass' = 8
              - 'paragrass' = 9
              - 'dense paragrass' = 10
+        
+        invasive_number_label: integer
+              All of the numbers above and including this one will be considered as part of the infestation. This will be considered in the management optimisation and in the spreading. In the case of Healthy Country AI, this number is 8. If you had an infestation grid with only one infestation label or class, define that label as the highest number. For example, if you had 5 classes, you would assign the infestation label the number 5, and your invasive_number_label would be 5. Zero (0) is used for a label that does not matter used for filling the data. 
+              
+         cost_grid: 2D numpy array of integers
+                An array with the same dimensions as label_grid, but that instead of having an int as a label, it has a float value indicating cost of managing each cell. If all cells of a particular label have the same cost, you can use your label grid to create the cost grid. For example, to define all cells of class 8 as having a cost of 8, you could do the following.
+                
+```
+habitat_gain[:,:][np.where(grid > 7)] = grid[:,:][np.where(grid > 7)]
+```
+
+
+              
+         
 
 
 
