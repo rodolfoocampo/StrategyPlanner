@@ -17,7 +17,7 @@ This is an extension of the [Healthy Country AI system](https://github.com/micro
 
 ## **Methodology**
 
-Our methodology has four steps: data clustering, generation and ranking of strategies, spread simulation and interactive visualisation.  We implemented this functionality as an open-source Python package strategyplanner, integrated into the Healthy Country AI pipeline and an interactive dashboard. The strategyplanner package can be used in other similar data pipelines as shown in Appendix 1. 
+Our methodology has four steps: data clustering, generation and ranking of strategies, spread simulation and interactive visualisation.  We implemented this functionality as an open-source Python package strategyplanner, integrated into the Healthy Country AI pipeline and an interactive dashboard. 
 Our frameworks build on more than a decade of work in the integration of indigenous knowledge in conservation planning and prioritisation in Australia (Robinson et al. 2012; Adams et al 2015a; Adams et al 2015b). 
 Data
 Our data comes from photos collected by drones and labeled by a computer vision algorithm at a resolution of 5 meters in 3 different sites within Kakadu National Park (Robinson et al. in review). This application case will focus on one of the sites on the Nardab floodplain, which has dimensions of 700x425m, or 140x85 grid cells, for a total of 11,900 cells. The photos were captured on 2019-10-29 corresponding to the Kunumeleng season. There are 10 possible labels for each cell: water, water lillies, bare ground, tree, other grass, burnt othergrass, dead paragrass, recovering paragrass, paragrass, dense paragrass. The Healthy Country AI Strategy Planner connects to this data remotely through the Open Database Connectivity (ODBC) interface and the Python package pyodbc (https://github.com/mkleehammer/pyodbc). 
@@ -41,11 +41,15 @@ In this page, the user can see to the left a map of the infestation grouped by p
 
 ## How to run this code
 
+As mentioned above, the code performs the following pipeline.
+
+![Functional pipeline](./Photos/pipeline.png)
+
 At the core of Strategy Planner is the strategyPlanner function. 
 
-```python
-strategyPlanner(label_grid, invasive_number_label, cost_grid, benefit_grid, max_cost, n_patches)
-```
+                ```python
+                strategyPlanner(label_grid, invasive_number_label, cost_grid, benefit_grid, max_cost, n_patches)
+                ```
 
 **Parameters** 
         
@@ -113,7 +117,7 @@ At the moment, the optimise function runs the whole pipeline, clustering, strate
 
 I still briefly describe each of the functions currently run within optimise:
 
-Clusterize
+**Clusterize**
 
 ```
 clusterize()
@@ -121,8 +125,7 @@ clusterize()
 
 This function currently is running k-means and uses the number of patches calculated from the estimated average size of patches.
 
-Spread
-
+**Spread**
 ````
 spread(grid, time_since_infested , wait_time: int, rate: int, distance: int, direction: tuple, suitability_by_label: list ) -> list
 ```
@@ -145,7 +148,8 @@ Parameters:
                 a list where each position corresponds to a value in the label_grid. Contains decimal values from 0 to 1, indicating the probability that an offspring establishes if it lands on this cell label or class. Probably should change this to be a grid to be consistent with benefit_grid_ cost_grid and label_grid, because potentially probability is not only a function of label but also of position in the grid. 
          
          
-         
+**Evaluation**
+
 EvaluateGrid(solution):
 
 Parameters:
@@ -156,14 +160,3 @@ Returns: a dictionary with the following values:
         'Percentage grass': a float value denoting grass left after a strategy was implemented.
         'Percentage water': a float value denoting water left immediatelly after the strategy has been implemented.
         'Cost': a float value denoting cost for this strategy
-
-
-                
-
-
-              
-         
-
-
-
-
