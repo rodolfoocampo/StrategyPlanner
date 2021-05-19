@@ -51,9 +51,9 @@ _**Strategy Visualiser**_
 
 
 
-## How to run this code
+## Running this code
 
-As mentioned above, the code performs the following pipeline.
+The code performs the following pipeline.
 
 ![Functional pipeline](./Photos/pipeline.png)
 
