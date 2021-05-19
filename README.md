@@ -42,8 +42,13 @@ The purpose of the introduction page is providing clarity about what the tool is
 In the strategy metrics the user can see, for each of the top 20% strategies: the cost, the percentage of grass after management, and the percentage of grass after spread. The user can rank the according to each one of this metrics, and go to the next page to visualise in a map each specific strategy implementation.
 In this page, the user can see to the left a map of the infestation grouped by patches. The user can select a strategy based on the previous page rankings and see which patches are managed in that strategy. The user can then see how the infestation map would look after management, as well as an estimation of the spread after one year from the strategy's implementation.
 
+_**Introduction page**_
 ![Introduction](./Photos/Introduction.png)
+
+_**Strategy Metrics page**_
 ![Strategy Metrics](./Photos/StrategyMetrics.png)
+
+_**Strategy Visualiser**_
 ![Strategy Visualiser](./Photos/StrategyVisualiser.png)
 
 
