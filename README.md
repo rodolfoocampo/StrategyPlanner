@@ -59,7 +59,7 @@ The code performs the following pipeline.
 
 ### Strategy Planner function
 
-At the core of Strategy Planner is the strategyPlanner function. 
+At the core of Strategy Planner is the strategyPlanner class. 
 
 ```python
 strategyPlanner(label_grid, invasive_number_label, cost_grid, benefit_grid, max_cost, n_patches)
@@ -104,6 +104,7 @@ How many cells do you estimate are in every patch. A patch is the planning unit,
 
 A strategyPlanner object
 
+### Optimise function
 
 Once you have created the strategyPlanner, you can run the optimise function. 
 
@@ -131,7 +132,7 @@ At the moment, the optimise function runs the whole pipeline, clustering, strate
 
 I still briefly describe each of the functions currently run within optimise:
 
-**Clusterize**
+### Clusterize function
 
 ```
 clusterize()
@@ -139,7 +140,7 @@ clusterize()
 
 This function currently is running k-means and uses the number of patches calculated from the estimated average size of patches.
 
-**Spread**
+### Spread
 
 ```
 spread(grid, time_since_infested , wait_time: int, rate: int, distance: int, direction: tuple, suitability_by_label: list ) -> list
@@ -163,7 +164,7 @@ A tuple of 2 values that indicates direction of spread cardinally going from (-1
 a list where each position corresponds to a value in the label_grid. Contains decimal values from 0 to 1, indicating the probability that an offspring establishes if it lands on this cell label or class. Probably should change this to be a grid to be consistent with benefit_grid_ cost_grid and label_grid, because potentially probability is not only a function of label but also of position in the grid. 
  
  
-**Evaluation**
+### Evaluation function
 
 ```
 EvaluateGrid(solution):
@@ -179,7 +180,7 @@ Returns: a dictionary with the following values:
 'Percentage water': a float value denoting water left immediatelly after the strategy has been implemented.
 'Cost': a float value denoting cost for this strategy
 
-**References**
+## References
 
 Adams, V. M., Petty, A. M., Douglas, M. M., Buckley, Y. M., Ferdinands, K. B., Okazaki, T., Ko, D. W., & Setterfield, S. A. (2015). Distribution, demography and dispersal model of spatial spread of invasive plant populations with limited data. Methods in Ecology and Evolution, 6(7), 782–794. https://doi.org/10.1111/2041-210X.12392
 
