@@ -47,72 +47,72 @@ As mentioned above, the code performs the following pipeline.
 
 At the core of Strategy Planner is the strategyPlanner function. 
 
-                ```python
-                strategyPlanner(label_grid, invasive_number_label, cost_grid, benefit_grid, max_cost, n_patches)
-                ```
+```python
+strategyPlanner(label_grid, invasive_number_label, cost_grid, benefit_grid, max_cost, n_patches)
+```
 
 **Parameters** 
-        
-        label_grid: 2D numpy array of integers
-            This is the infestation data. It needs to be a 2d array where each cell is an observation with a label attached. The array must contain a number in each position. Each different number represents a different label. In Healthy Country AI, each entry in the array represents a 5x5m photo with a numeric label representing the following labels. Ideally, set up up so that this can capture a cardinality in infestation density. Negatives denotes parts that are not part of the map but were included for symmetry, usually in the outskirts.
-            - 'Negative' = 0
-             - 'water' = 1
-             - 'water lillies' = 2
-             - 'bare ground' = 3
-             - 'tree' = 4
-             - 'other grass' = 5
-             - 'burnt othergrass' = 6
-             - 'dead paragrass' = 7
-             - 'recovering paragrass' = 8
-             - 'paragrass' = 9
-             - 'dense paragrass' = 10
-        
-        invasive_number_label: integer
-              All of the numbers above and including this one will be considered as part of the infestation. This will be considered in the management optimisation and in the spreading. In the case of Healthy Country AI, this number is 8. If you had an infestation grid with only one infestation label or class, define that label as the highest number. For example, if you had 5 classes, you would assign the infestation label the number 5, and your invasive_number_label would be 5. Zero (0) is used for a label that does not matter used for filling the data. 
-              
-         cost_grid: 2D numpy array of integers
-                An array with the same dimensions as label_grid, but that instead of having an int as a label, it has a float value indicating cost of managing each cell. If all cells of a particular label have the same cost, you can use your label grid to create the cost grid. For example, to define all cells of class 8 as having a cost of 10, you could do the following.
-                
+
+label_grid: 2D numpy array of integers
+    This is the infestation data. It needs to be a 2d array where each cell is an observation with a label attached. The array must contain a number in each position. Each different number represents a different label. In Healthy Country AI, each entry in the array represents a 5x5m photo with a numeric label representing the following labels. Ideally, set up up so that this can capture a cardinality in infestation density. Negatives denotes parts that are not part of the map but were included for symmetry, usually in the outskirts.
+    - 'Negative' = 0
+     - 'water' = 1
+     - 'water lillies' = 2
+     - 'bare ground' = 3
+     - 'tree' = 4
+     - 'other grass' = 5
+     - 'burnt othergrass' = 6
+     - 'dead paragrass' = 7
+     - 'recovering paragrass' = 8
+     - 'paragrass' = 9
+     - 'dense paragrass' = 10
+
+invasive_number_label: integer
+      All of the numbers above and including this one will be considered as part of the infestation. This will be considered in the management optimisation and in the spreading. In the case of Healthy Country AI, this number is 8. If you had an infestation grid with only one infestation label or class, define that label as the highest number. For example, if you had 5 classes, you would assign the infestation label the number 5, and your invasive_number_label would be 5. Zero (0) is used for a label that does not matter used for filling the data. 
+      
+ cost_grid: 2D numpy array of integers
+An array with the same dimensions as label_grid, but that instead of having an int as a label, it has a float value indicating cost of managing each cell. If all cells of a particular label have the same cost, you can use your label grid to create the cost grid. For example, to define all cells of class 8 as having a cost of 10, you could do the following.
+
 ```
 splanner = cost_grid[:,:][np.where(label_grid == 8)] = 10
 ```
 
-        benefit_grid: 2D numpy array of integers
-                Similar to cost_grid, but where each entry denotes benefit of managing that cell. If all cells in a class give same gain, you can something similar as the code above to define it.
-                
-        max_cost: float
-                The maximum cost or budget. All strategies generated must be below this number. 
-                
-        n_patches: int, units in number of cells. 
-                How many cells do you estimate are in every patch. A patch is the planning unit, the minimum unit of managementing planning and action. For Healthy Country AI, this is 140, thus dividing that by the total number of infested cells, we end up with 10 patches. 
-                
+benefit_grid: 2D numpy array of integers
+Similar to cost_grid, but where each entry denotes benefit of managing that cell. If all cells in a class give same gain, you can something similar as the code above to define it.
+
+max_cost: float
+The maximum cost or budget. All strategies generated must be below this number. 
+
+n_patches: int, units in number of cells. 
+How many cells do you estimate are in every patch. A patch is the planning unit, the minimum unit of managementing planning and action. For Healthy Country AI, this is 140, thus dividing that by the total number of infested cells, we end up with 10 patches. 
+
 **Returns**
 
-        A strategyPlanner object
-        
+A strategyPlanner object
+
 
 Once you have created the strategyPlanner, you can run the optimise function. 
 
 ```
-        splanner.optimise()
+splanner.optimise()
 ```
 
-        **Returns**
-        
-        A results object, which currently is a dictionary of number of solutions. Each solution has the following values: values:
-        
-        'Solution Number': an identifier 
-        'Managed Grid': a grid of the same shape as label_grid, with labels that denote as state of infestation immediately after management. If this strategy is implemented, this is how the ingestation would like. 
-        'Spreaded Grid':  a grid of the same shape as label_grid, with labels that denote as state of infestation after spread has been modelling. That is, in a longer term than Managed Grid. The period into the future for which spread is modelled depends on the parameters passed to the spread() function detailed below.
-        'Metrics after management': this is itself made of a dictionary that contains:
-                'Percentage grass': a float value denoting grass left after a strategy was implemented.
-                'Percentage water': a float value denoting water left immediatelly after the strategy has been implemented.
-                'Cost': a float value denoting cost for this strategy
+**Returns**
+
+A results object, which currently is a dictionary of number of solutions. Each solution has the following values: values:
+
+'Solution Number': an identifier 
+'Managed Grid': a grid of the same shape as label_grid, with labels that denote as state of infestation immediately after management. If this strategy is implemented, this is how the ingestation would like. 
+'Spreaded Grid':  a grid of the same shape as label_grid, with labels that denote as state of infestation after spread has been modelling. That is, in a longer term than Managed Grid. The period into the future for which spread is modelled depends on the parameters passed to the spread() function detailed below.
+'Metrics after management': this is itself made of a dictionary that contains:
+'Percentage grass': a float value denoting grass left after a strategy was implemented.
+'Percentage water': a float value denoting water left immediatelly after the strategy has been implemented.
+'Cost': a float value denoting cost for this strategy
        'Metrics after spread': similar to the one above, but with metrics for the infestation after spread has been modelled in the future. 
-                'Percentage grass': a float value denoting grass left after a strategy has been implemented and a period of time has happened that allowed the grass to spread.
-                'Percentage water': a float value denoting water left after a strategy has been implemented and a period of time has happened that allowed the grass to spread
-                
-                
+'Percentage grass': a float value denoting grass left after a strategy has been implemented and a period of time has happened that allowed the grass to spread.
+'Percentage water': a float value denoting water left after a strategy has been implemented and a period of time has happened that allowed the grass to spread
+
+
 At the moment, the optimise function runs the whole pipeline, clustering, strategy generation and ranking, spread simulation as well as evaluation of results to produce the results object. However, I am working on separating these in individual functions to modularise so for example, a different optimisation algorithm can be used but using the same clustering and simulation, and also to create modular custom pipelines. 
 
 I still briefly describe each of the functions currently run within optimise:
@@ -126,7 +126,8 @@ clusterize()
 This function currently is running k-means and uses the number of patches calculated from the estimated average size of patches.
 
 **Spread**
-````
+
+```
 spread(grid, time_since_infested , wait_time: int, rate: int, distance: int, direction: tuple, suitability_by_label: list ) -> list
 ```
 
@@ -134,29 +135,31 @@ In the future, this will be a stand alone function and would be able to run it w
 
 Parameters: 
 
-         time_since_infested: 2d numpy array
-         grid of same shape and size as label_grid, where each entry indicates how long that cell has been infested for. Since a cell can only spread after a given wait time specific to the species, we need this value. 
-         wait_time: int
-                Amount of years it has to pass for a cell to be able to spread. 
-         rate: int
-                Number of offspring produced by each cell
-         distance: int
-                Distance given in cell lengths indicating how long an offspring travels
-         direction: tuple
-                A tuple of 2 values that indicates direction of spread cardinally going from (-1,1). For example, (1,1) says direction is top left, or north east. -1,1 says direction is top right or north west. (-1,-1) says direction is bottom right, or south west, and so one. (0,0) says no direction and we just spread in random directions samples from a uniform distribution.
-         suitability_by_label: list
-                a list where each position corresponds to a value in the label_grid. Contains decimal values from 0 to 1, indicating the probability that an offspring establishes if it lands on this cell label or class. Probably should change this to be a grid to be consistent with benefit_grid_ cost_grid and label_grid, because potentially probability is not only a function of label but also of position in the grid. 
-         
-         
+ time_since_infested: 2d numpy array
+ grid of same shape and size as label_grid, where each entry indicates how long that cell has been infested for. Since a cell can only spread after a given wait time specific to the species, we need this value. 
+ wait_time: int
+Amount of years it has to pass for a cell to be able to spread. 
+ rate: int
+Number of offspring produced by each cell
+ distance: int
+Distance given in cell lengths indicating how long an offspring travels
+ direction: tuple
+A tuple of 2 values that indicates direction of spread cardinally going from (-1,1). For example, (1,1) says direction is top left, or north east. -1,1 says direction is top right or north west. (-1,-1) says direction is bottom right, or south west, and so one. (0,0) says no direction and we just spread in random directions samples from a uniform distribution.
+ suitability_by_label: list
+a list where each position corresponds to a value in the label_grid. Contains decimal values from 0 to 1, indicating the probability that an offspring establishes if it lands on this cell label or class. Probably should change this to be a grid to be consistent with benefit_grid_ cost_grid and label_grid, because potentially probability is not only a function of label but also of position in the grid. 
+ 
+ 
 **Evaluation**
 
+```
 EvaluateGrid(solution):
+````
 
 Parameters:
-         solution: grid of same length and size as label grid. 
+ solution: grid of same length and size as label grid. 
 
 Returns: a dictionary with the following values:
 
-        'Percentage grass': a float value denoting grass left after a strategy was implemented.
-        'Percentage water': a float value denoting water left immediatelly after the strategy has been implemented.
-        'Cost': a float value denoting cost for this strategy
+'Percentage grass': a float value denoting grass left after a strategy was implemented.
+'Percentage water': a float value denoting water left immediatelly after the strategy has been implemented.
+'Cost': a float value denoting cost for this strategy
